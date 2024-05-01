@@ -6,7 +6,7 @@
     "labels_scope": "invalid",
 
     // Toggles case sensitive search in word and character modes.
-    "search_case_sensitivity": true,
+    "search_case_sensitivity": false,
 
     // Saves all the files aceJump tried to parse.
     // This setting will reset any linter warnings you might see during jump

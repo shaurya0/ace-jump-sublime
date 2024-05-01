@@ -20,11 +20,15 @@ def get_active_views(window, current_buffer_only):
     """Returns all currently visible views"""
 
     views = []
-    if current_buffer_only:
-        views.append(window.active_view())
-    else:
-        for group in range(window.num_groups()):
-            views.append(window.active_view_in_group(group))
+
+
+    active_group = window.active_group()
+    views.append(window.active_view_in_group(active_group))
+    return views
+
+
+    for group in range(window.num_groups()):
+        views.append(window.active_view_in_group(group))
     return views
 
 def set_views_setting(views, setting, values):
@@ -80,6 +84,7 @@ class AceJumpCommand(sublime_plugin.WindowCommand):
     """Base command class for AceJump plugin"""
 
     def run(self, current_buffer_only = False):
+        current_buffer_only = True
         global ace_jump_active
         ace_jump_active = True
 
@@ -202,6 +207,7 @@ class AceJumpCommand(sublime_plugin.WindowCommand):
             self.views.remove(view)
 
         set_views_syntax(self.all_views, list(itertools.repeat(
+            # "Packages/AceJump/AceJump.tmLanguage",
             "Packages/AceJump/AceJump.tmLanguage",
             len(self.all_views)
         )))
@@ -262,7 +268,7 @@ class AceJumpCommand(sublime_plugin.WindowCommand):
 class AceJumpWordCommand(AceJumpCommand):
     """Specialized command for word-mode"""
 
-    def prompt(self):
+    def prompt(self):        
         return "Head char"
 
     def init_value(self):
@@ -379,7 +385,8 @@ class AddAceJumpLabelsCommand(sublime_plugin.TextCommand):
     def run(self, edit, regex, region_type, labels, highlight, case_sensitive):
         global hints
 
-        characters = self.find(regex, region_type, len(labels), case_sensitive)
+        characters = self.find(regex, region_type, len(labels), case_sensitive)        
+        
         self.add_labels(edit, characters, labels)
         self.view.add_regions("ace_jump_hints", characters, highlight)
 

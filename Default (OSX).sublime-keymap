@@ -1,6 +1,6 @@
 [
     {
-        "keys": ["super+shift+;"],
+        "keys": ["alt+t"],
         "command": "ace_jump_word"
     },
     {
